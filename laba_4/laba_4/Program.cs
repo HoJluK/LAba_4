@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace laba_4
 {
+
     class Program
     {
         static string mainString;
@@ -81,12 +83,6 @@ namespace laba_4
                 }
             }
         }
-        static void UnShut2()
-        {
-            Console.WriteLine();
-            Console.ReadKey();
-        }
-
         static string[] GetStrings()
         {
             Console.Write("Enter offer :");
@@ -136,7 +132,7 @@ namespace laba_4
             return returnString;
         }
 
-        
+
         static string GetNewString2(string[] arrayStrings)
         {
             string returnString = String.Empty;
@@ -249,69 +245,142 @@ namespace laba_4
         }
         static string[] GetStrings4()
         {
-            Console.WriteLine("Enter string ");
-            string mainString = Console.ReadLine().ToLower();
-            string[] arrayStrings = mainString.Split(new[] { ' ', ',', ':', '?', '!', '.' }, StringSplitOptions.RemoveEmptyEntries);
-            return arrayStrings;
-        }
-        static string GetNewString4(string[] arrayStrings)
-        {
-            string returnString = String.Empty;
-            for (int i = arrayStrings.Length - 1; i >= 0; i--)
+            int number = 1;
+            string[] s = new string[7];
+            for (int i = 0; i < s.Length; i++)
             {
-                char[] arrayChars = arrayStrings[i].ToCharArray();
-                {
-                    if (i == arrayStrings.Length - 1)
-                    {
-                        arrayChars[0] = char.ToUpper(arrayChars[0]);
-                    }
-                }
-                if (arrayChars[0] == '-' || arrayChars[arrayChars.Length - 1] == '-')
-                {
-                    if (arrayChars[0] == '-')
-                    {
-                        arrayChars[0] = ' ';
-                    }
-                    else
-                    {
-                        arrayChars[arrayChars.Length - 1] = ' ';
-                    }
-                }
-                arrayStrings[i] = GetStringWithoutSpace4(arrayChars);
-                returnString += arrayStrings[i] + " ";
+                Console.WriteLine(number + "." + "Enter string");
+                s[i] = Console.ReadLine();
+                number++;
             }
-            return returnString;
+            foreach (string str in s)
+            {
+               
+                string tempString = str.ToLower();
+                char[] chars = tempString.ToCharArray();
+                Console.WriteLine();
+                if (chars[chars.Length - 1] == 'm' && chars[chars.Length - 2] == 'o' && chars[chars.Length - 3] == 'c' && chars[chars.Length - 4] == '.')
+                {
+                    Console.WriteLine(str);
+                }
+                for (int i = 0; i < chars.Length; i++)
+                {
+                    if (i < chars.Length - 4)
+                    {
+                        if ((chars[i] == '.' && chars[i + 1] == 'c' && chars[i + 2] == 'o' && chars[i + 3] == 'm') && (chars[i + 4] == ' ' || chars[i + 4] == '.' || chars[i + 4] == ',' || chars[i + 4].Equals("")))
+                        {
+                            Console.WriteLine(str);
+                        }
+                    }
+                }
+            }
+            return s;
         }
+        
+        
 
         static string[] GetWords()
         {
-            Console.WriteLine("Enter string");
-            string mainstring = Console.ReadLine();
-            string[] arraystrings = mainstring.Split(new[] { ' ', ',', ':', '?', '!', '.' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] arraystrings = new string[7];
+            int length = 7, number;
+            string[] s = new string[length];
+            string[] sLower = new string[length];
+            for (int i = 0; i < s.Length; i++)
+            {
+                number = i + 1;
+                Console.Write(number + ". ");
+                Console.WriteLine("Enter the string: ");
+                s[i] = Console.ReadLine();
+                Console.WriteLine();
+                sLower[i] = s[i].ToLower();
+            }
+            Console.WriteLine();
+            Console.WriteLine("Strings that contains \".com\":\n");
+            for (int i = 0; i < sLower.Length; i++)
+            {
+                string[] sLowerWords = sLower[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int j = 0; j < sLowerWords.Length; j++)
+                {
+                    if (sLowerWords[i].EndsWith(".com") || sLowerWords[i].EndsWith(".com.") || sLowerWords[i].EndsWith(".com,"))
+                    {
+                        number = i + 1;
+                        Console.Write(number + ". ");
+                        Console.WriteLine(s[i] + "\n");
+                    }
+                }
+            }
+            Console.WriteLine();
+            int spaces = s[0].LastIndexOf(" ");
+            int numOfStr = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (spaces > s[i].LastIndexOf(" "))
+                {
+                    spaces = s[i].LastIndexOf(" ");
+                    numOfStr = i;
+                }
+            }
+            Console.WriteLine("String with the smallest number of spaces: ");
+            Console.WriteLine(s[numOfStr]);
             return arraystrings;
         }
-        static string GtNewString4(string[] arraystrings)
+        static string[] GetSplitString()
         {
-            string resultstring = String.Empty;
-            for (int i = arraystrings.Length - 1; i >= 0; i--)
+            string mainString = Console.ReadLine();
+            string[] arraystrings = mainString.Split(new[] { ' ', ',', ':', '?', '!' }, StringSplitOptions.RemoveEmptyEntries);
+            return arraystrings;
+        }
+        static void PrintTrueLogins(string[] arraystrings)
+        {
+            for (int word = 0; word < arraystrings.Length; word++)
             {
-                if (i == arraystrings.Length - 1)
+                if ((int)arraystrings[word][0] >= 65 && (int)arraystrings[word][0] <= 90)
                 {
-                    arraystrings[arraystrings.Length - 1] = arraystrings[arraystrings.Length - 1].Substring(0, 1).ToUpper() + arraystrings[arraystrings.Length - 1].Remove(0, 1);
+                    if ((int)arraystrings[word][arraystrings[word].Length - 1] >= 48 && (int)arraystrings[word][arraystrings[word].Length - 1] <= 57)
+                    {
+                        if ((int)arraystrings[word][arraystrings[word].Length - 2] >= 48 && (int)arraystrings[word][arraystrings[word].Length - 2] <= 57)
+                        {
+                            if ((int)arraystrings[word][arraystrings[word].Length - 3] >= 48 && (int)arraystrings[word][arraystrings[word].Length - 3] <= 57)
+                            {
+                            }
+                            else
+                            {
+                                for (int i = 1; i < arraystrings[word].Length - 2; i++)
+                                {
+                                    if ((int)arraystrings[word][i] >= 97 && (int)arraystrings[word][i] <= 122)
+                                    {
+                                        if (i == arraystrings[word].Length - 3)
+                                        {
+                                            Console.WriteLine(arraystrings[word]);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                if (i == 0)
-                {
-                    arraystrings[0] = arraystrings[0].Substring(0, 1).ToLower() + arraystrings[0].Remove(0, 1);
-                }
-                if (arraystrings[i].Substring(0, 1) == "-")
-                {
-                    continue;
-                }
-                resultstring += arraystrings[i] + " ";
             }
-            return resultstring;
+        }
+        static string GetString()
+        {
+            Console.Write("Enter string: ");
+            string mainString = Console.ReadLine();
+            return mainString;
+        }
+        static void GetLogins(string mainString)
+        {
+            Regex regex = new Regex(@"[A-Z]\w+\d\d+");
+            foreach (Match match in regex.Matches(mainString))
+            {
+                Console.WriteLine(match.Groups[0].Value);
+            }
         }
 
+        
         static void Main(string[] args)
         {
             Console.Write("Enter job number --");
@@ -342,6 +411,24 @@ namespace laba_4
                     Console.WriteLine("Task 5");
                     five();
                     break;
+                case 6:
+                    Console.WriteLine("Task 6");
+                    six();
+                    break;
+                case 7:
+                    Console.WriteLine("Task 7");
+                    seven();
+                    break;
+                case 8:
+                    Console.WriteLine("Task 8");
+                    eigh();
+                    break;
+                case 9:
+                    Console.WriteLine("Task 8");
+                    ninth();
+                    break;
+
+
 
             }
         }
@@ -359,7 +446,7 @@ namespace laba_4
             Console.WriteLine("Way string");
             GetString2(out mainString);
             CheckString2(mainString);
-            UnShut2();
+            UnShut();
         }
         static void two()
         {
@@ -385,18 +472,217 @@ namespace laba_4
         {
             Console.WriteLine("V.1.0");
             string[] arrayStrings = GetStrings4();
-            Console.WriteLine(GetNewString4(arrayStrings));
+            Console.WriteLine(arrayStrings);
             Console.ReadKey();
             Console.WriteLine("V.2.0");
             string[] arraystrings = GetWords();
-            Console.WriteLine(GtNewString4(arraystrings));
+            Console.WriteLine(arraystrings);
             Console.WriteLine();
             Console.ReadKey();
         }
 
         static void five()
         {
-
+            Console.WriteLine("v.1.0");
+            string[] arraystrings = GetSplitString();
+            PrintTrueLogins(arraystrings);
+            UnShut();
+            Console.WriteLine("v.2.0");
+            string mainString = GetString();
+            GetLogins(mainString);
+            UnShut();
         }
+
+        static void six()
+        {
+            Console.WriteLine("Enter the string such as «15 + 36 = 51»: ");
+            string arrays = Console.ReadLine();
+            Regex numbers = new Regex(@"-?\d+");
+            MatchCollection nums = numbers.Matches(arrays);
+            foreach (Match match in nums)
+            {
+                int num = Convert.ToInt32(match.Value);
+                Console.Write(num + "  ");
+            }
+            Console.ReadKey();
+        }
+
+        static void seven()
+        {
+            string[] trackList = new string[10];
+            trackList[0] = "Gentle Giant – Free Hand [06:15]";
+            trackList[1] = "Supertramp – Child Of Vision [07:27]";
+            trackList[2] = "Camel – Lawrence [10:46]";
+            trackList[3] = "Yes – Don’t Kill The Whale [03:55]";
+            trackList[4] = "10CC – Notell Hotel [04:58]";
+            trackList[5] = "Nektar – King Of Twilight [04:16]";
+            trackList[6] = "The Flower Kings – Monsters & Men [21:19]";
+            trackList[7] = "Focus – Le Clochard [01:59]";
+            trackList[8] = "Pendragon – Fallen Dream And Angel [05:23]";
+            trackList[9] = "Kaipa – Remains Of The Day [08:02]";
+            int digitMin = 0;
+            int digitSec = 0;
+            decimal sum = 0;
+            string shortestSong = string.Empty;
+            string longestSong = string.Empty;
+            int minDuration = int.MaxValue, maxDuration = 0;
+            int[] durations = new int[trackList.Length];
+            int minDifference = int.MaxValue, firstTrackIndex = 0, secondTrackIndex = 0;
+            for (int i = 0; i < trackList.Length; i++)
+            {
+                Console.WriteLine(trackList[i]);
+                Console.WriteLine();
+                Regex minutes = new Regex(@"(\d{2})(?=:)");
+                Regex seconds = new Regex(@"(?<=:)(\d{2})");
+                MatchCollection min = minutes.Matches(trackList[i]);
+                MatchCollection sec = seconds.Matches(trackList[i]);
+                foreach (Match m in min)
+                {
+                    digitMin = Convert.ToInt32((m.Value));
+                    Console.WriteLine("Minutes: " + digitMin);
+                    sum += digitMin * 60;
+                }
+                foreach (Match s in sec)
+                {
+                    digitSec = Convert.ToInt32((s.Value));
+                    Console.WriteLine("Seconds: " + digitSec);
+                    sum += digitSec;
+                }
+                Console.WriteLine();
+
+                if (digitMin > maxDuration)
+                {
+                    maxDuration = digitMin;
+                    longestSong = trackList[i];
+                }
+                if (digitMin < minDuration)
+                {
+                    minDuration = digitMin;
+                    shortestSong = trackList[i];
+                }
+                durations[i] = digitMin * 60 + digitSec;
+            }
+            for (int q = 0; q < durations.Length; q++)
+            {
+                for (int w = 0; w < durations.Length; w++)
+                {
+                    if (q == w)
+                    {
+                        continue;
+                    }
+                    if (Math.Abs(durations[q] - durations[w]) < minDifference)
+                    {
+                        firstTrackIndex = q;
+                        secondTrackIndex = w;
+                        minDifference = Math.Abs(durations[q] - durations[w]);
+                    }
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine("Summary time is " + sum + " sec");
+            Console.WriteLine("The shortest song is " + shortestSong);
+            Console.WriteLine("The longest song is " + longestSong);
+            Console.WriteLine("Songs that have minimal difference of durations: {0} and {1}", trackList[firstTrackIndex], trackList[secondTrackIndex]);
+            Console.ReadKey();
+        }
+    
+        static void eigh()
+        {
+            Console.WriteLine(" Enter 1(Atbash), 2(Vernam), 3(permutation)");
+            int number = Convert.ToInt32(Console.ReadLine());
+            if (number == 1)
+            {
+                Console.WriteLine("Atbash");
+                Console.WriteLine("Enter the text: ");
+                string s = Console.ReadLine();
+                s = s.ToLower();
+                Console.WriteLine();
+                string output = string.Empty;
+                foreach (char ch in s)
+                {
+                    if (char.IsLetter(ch))
+                    {
+                        output += (char)(219 - ch);
+                    }
+                    else
+                    {
+                        output += ch;
+                    }
+                }
+
+                Console.WriteLine(output);
+                Console.ReadKey();
+            }
+            if (number == 2)
+            {
+                Console.WriteLine("Vernam");
+                Console.WriteLine("Enter the text: ");
+                string s = Console.ReadLine();
+                s = s.ToLower();
+                Console.WriteLine("Enter the key: ");
+                string key = Console.ReadLine();
+                if (key.Length != s.Length)
+                    return;
+                string CipherText = string.Empty;
+                for (int i = 0; i < s.Length; i++)
+                {
+                    CipherText += (char)(s[i] ^ key[i]);
+                }
+                Console.WriteLine(CipherText);
+                Console.ReadKey();
+            }
+            if (number == 3)
+            {
+                Console.WriteLine("Enter the text: ");
+                string s = Console.ReadLine();
+                s = s.ToLower();
+                Console.WriteLine("Enter the key: ");
+                string permutationKey = Console.ReadLine();
+                string permutatuionOutput = string.Empty;
+                for (int i = 0; i < s.Length; i++)
+                {
+                    string chKey = permutationKey[i].ToString();
+                    int digitKey = int.Parse(chKey) - 1;
+                    permutatuionOutput += s[digitKey];
+                }
+                Console.WriteLine(permutatuionOutput);
+                Console.ReadKey();
+            }
+        }
+
+        static void ninth()
+        {
+            Console.WriteLine("string");
+            Console.WriteLine("Enter the text: ");
+            string s = Console.ReadLine();
+            s = s.ToLower();
+            string[] words = s.Split(new char[] { ' ', ',', '.' });
+            foreach (string word in words)
+            {
+                char[] charWord = word.ToCharArray();
+                if (charWord[0] == charWord[charWord.Length - 1])
+                {
+                    s = s.Replace(word, "");
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine(s);
+            Console.ReadKey();
+
+           Console.WriteLine("StringBuilder");
+            s = s.ToLower();
+            string[] worods = s.Split(new char[] { ' ', ',', '.' });
+            foreach (string word in words)
+            {
+                if (word[0] == word[word.Length - 1])
+                {
+                    s = s.Replace(word, "");
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine(s);
+        }
+
+
     }
 }
