@@ -326,45 +326,21 @@ namespace laba_4
         }
         static string[] GetSplitString()
         {
+            Console.WriteLine("Enter string");
             string mainString = Console.ReadLine();
             string[] arraystrings = mainString.Split(new[] { ' ', ',', ':', '?', '!' }, StringSplitOptions.RemoveEmptyEntries);
-            return arraystrings;
-        }
-        static void PrintTrueLogins(string[] arraystrings)
-        {
-            for (int word = 0; word < arraystrings.Length; word++)
+            for (int i = 0; i < arraystrings.Length; i++)
             {
-                if ((int)arraystrings[word][0] >= 65 && (int)arraystrings[word][0] <= 90)
+                string word = arraystrings[i];
+                if (Char.IsUpper(word[0]) && Char.IsNumber(word[word.Length - 1]) && Char.IsNumber(word[word.Length - 2]))
                 {
-                    if ((int)arraystrings[word][arraystrings[word].Length - 1] >= 48 && (int)arraystrings[word][arraystrings[word].Length - 1] <= 57)
-                    {
-                        if ((int)arraystrings[word][arraystrings[word].Length - 2] >= 48 && (int)arraystrings[word][arraystrings[word].Length - 2] <= 57)
-                        {
-                            if ((int)arraystrings[word][arraystrings[word].Length - 3] >= 48 && (int)arraystrings[word][arraystrings[word].Length - 3] <= 57)
-                            {
-                            }
-                            else
-                            {
-                                for (int i = 1; i < arraystrings[word].Length - 2; i++)
-                                {
-                                    if ((int)arraystrings[word][i] >= 97 && (int)arraystrings[word][i] <= 122)
-                                    {
-                                        if (i == arraystrings[word].Length - 3)
-                                        {
-                                            Console.WriteLine(arraystrings[word]);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    Console.WriteLine(arraystrings[i]);
                 }
             }
+        
+            return arraystrings;
         }
+        
         static string GetString()
         {
             Console.Write("Enter string: ");
@@ -485,7 +461,7 @@ namespace laba_4
         {
             Console.WriteLine("v.1.0");
             string[] arraystrings = GetSplitString();
-            PrintTrueLogins(arraystrings);
+            
             UnShut();
             Console.WriteLine("v.2.0");
             string mainString = GetString();
